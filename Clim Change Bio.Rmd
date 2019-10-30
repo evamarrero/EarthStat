@@ -1,0 +1,117 @@
+---
+insttitle: "EarthStat"
+author: "Eva Marrero"
+date: "10/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Load packages
+
+library(tidyverse)
+library(tiff)
+library(raster)
+library(rgdal)
+library(sf)
+library(sp)
+library(rgeos)
+```
+
+
+1. Read in the data.
+```{r}
+
+### MAIZE
+# Realized  yield.
+maize_realized <- raster("maize_HarvAreaYield_Geotiff/maize_YieldPerHectare.tif")
+# Yield gap.
+maize_gap <- raster("maize_yieldgap_geotiff/maize_yieldgap.tif")
+
+### OILPALM
+# Realized yield.
+oilpalm_realized <- raster("oilpalm_HarvAreaYield_Geotiff/oilpalm_YieldPerHectare.tif")
+# Yield gap.
+oilpalm_gap <- raster("oilpalm_yieldgap_geotiff/oilpalm_yieldgap.tif")
+
+### SUGARCANE
+# Realized yield.
+sugar_realized <- raster("sugarcane_HarvAreaYield_Geotiff/sugarcane_YieldPerHectare.tif")
+# Yield gap.
+sugar_gap <- raster("sugarcane_yieldgap_geotiff/sugarcane_yieldgap.tif")
+
+### SOYBEAN
+# Realized yield.
+soy_realized <- raster("soybean_HarvAreaYield_Geotiff/soybean_YieldPerHectare.tif")
+# Yield gap.
+soy_gap <- raster("soybean_yieldgap_geotiff/soybean_yieldgap.tif")
+
+```
+
+2. Plot the data.
+```{r}
+
+plot(maize_realized,
+     main="Current Yields for Maize")
+plot(maize_gap,
+     main="Yield Gap for Maize")
+
+plot(oilpalm_realized,
+     main="Current Yields for Oilpalm")
+plot(oilpalm_gap,
+     main="Yield Gap for Oilpalm")
+
+plot(soy_realized,
+     main="Current Yields for Soy")
+plot(soy_gap,
+     main="Yield Gap for Soy")
+
+plot(sugar_realized,
+     main="Current Yields for Sugar")
+plot(sugar_gap,
+     main="Yield Gap for Sugar")
+```
+
+
+3. Combine realized and gap maps to get total potential map for each crop.
+```{r}
+
+### MAIZE
+
+maize_total <- raster::merge(maize_realized, maize_gap)
+plot(maize_total,
+     main="Potential for Maize")
+
+### OILPALM
+
+oilpalm_total <- raster::merge(oilpalm_realized, oilpalm_gap)
+plot(oilpalm_total,
+     main="Potential for Oilpalm")
+
+### SOYBEAN
+
+soy_total <- raster::merge(soy_realized, soy_gap)
+plot(soy_total,
+     main="Potential for Soy")
+
+### SUGAR
+
+sugar_total <- raster::merge(sugar_realized, sugar_gap)
+plot(sugar_total,
+     main="Potential for Sugarcane")
+
+```
+
+4. Figure out how to mask/overlap the crop maps, depending on energy potential...!
+
+
+
+
+
+
+
+
+
